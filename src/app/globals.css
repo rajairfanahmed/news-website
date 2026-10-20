@@ -1,26 +1,166 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@config "../../tailwind.config.ts";
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Day Mode: 'Paper & Ink' - High Contrast Swiss Style */
+    --background: 60 9% 96%;
+    /* #F4F4F0 - Gallery White */
+    --foreground: 0 0% 10%;
+    /* #1A1A1A - Deep Charcoal */
+
+    --primary: 0 0% 9%;
+    /* Almost Black */
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 0 0% 90%;
+    --secondary-foreground: 0 0% 9%;
+
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+
+    --accent: 0 100% 50%;
+    /* #FF0000 - Swiss Red */
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0rem;
+    /* Sharp edges for Swiss style */
+  }
+
+  .dark {
+    /* Night Mode: 'Void & Voltage' - Experimental Dark */
+    --background: 0 0% 2%;
+    /* #050505 - Void Black */
+    --foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+
+    --secondary: 0 0% 10%;
+    /* Dark Grey */
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 63.9%;
+
+    --accent: 72 100% 50%;
+    /* #CCFF00 - Acid Green */
+    --accent-foreground: 0 0% 9%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    cursor: none;
+    /* Custom cursor only */
+  }
+
+  /* Selection Colors */
+  ::selection {
+    @apply bg-accent text-accent-foreground;
+  }
+
+  /* Custom Scrollbar - Minimal */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent/40 rounded-full hover:bg-accent transition-colors;
+  }
+}
+
+@layer utilities {
+  .text-fluid-h1 {
+    font-size: clamp(3rem, 8vw, 8rem);
+    line-height: 0.9;
+  }
+
+  .text-fluid-h2 {
+    font-size: clamp(2rem, 5vw, 5rem);
+    line-height: 1;
+  }
+
+  /* Text Reveal Utility */
+  .reveal-text {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  .reveal-text>* {
+    transform: translateY(100%);
+    opacity: 0;
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+
+  /* Experimental Utilities */
+  .stroke-text {
+    -webkit-text-stroke: 1px currentColor;
+    color: transparent;
+  }
+
+  .stroke-text-white {
+    -webkit-text-stroke: 1px hsl(var(--foreground));
+    color: transparent;
+  }
+
+  .text-shadow-glow {
+    text-shadow: 0 0 10px hsl(var(--accent) / 0.5);
+  }
 }
